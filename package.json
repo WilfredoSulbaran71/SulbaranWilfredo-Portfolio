@@ -1,0 +1,14 @@
+{
+  "name": "miportafolio20222",
+  "version": "1.0.0",
+  "description": "creacion del portfolio 2022",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "WIlfredo Sulbaran",
+  "license": "ISC",
+  "dependencies": {
+    "eins-modal": "^2.2.2"
+  }
+}
