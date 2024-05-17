@@ -1,6 +1,6 @@
 /*Normalizacion*/
 *{
-    box-sizing: border-box;
+    box-sizing: 0;
     padding: 0;
     margin: 0;
     
