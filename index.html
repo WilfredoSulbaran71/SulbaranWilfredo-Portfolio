@@ -7,8 +7,182 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Beau+Rivage&family=Montserrat:ital,wght@0,100;0,400;0,900;1,400&family=Raleway:wght@300&family=The+Nautigal&family=Ubuntu:ital,wght@0,300;1,400;1,500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="node_modules/eins-modal/dist/css/eins-modal.min.css">
     <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        /* ===== MODAL SYSTEM — CSS PURO, SIN NPM ===== */
+
+        .eins-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .eins-modal.is-open {
+            display: flex;
+        }
+
+        .eins-modal-content {
+            background: #1e1e2e;
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalIn 0.25s ease;
+        }
+
+        @keyframes modalIn {
+            from { transform: scale(0.85); opacity: 0; }
+            to   { transform: scale(1);    opacity: 1; }
+        }
+
+        .eins-modal-close {
+            position: absolute;
+            top: 14px;
+            right: 18px;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            opacity: 0.6;
+        }
+
+        .eins-modal-close:hover { opacity: 1; }
+
+        .eins-modal-close::before,
+        .eins-modal-close::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #fff;
+        }
+
+        .eins-modal-close::before { transform: rotate(45deg); }
+        .eins-modal-close::after  { transform: rotate(-45deg); }
+
+        .eins-modal-close-button {
+            display: none; /* Usamos la X, no el botón */
+        }
+
+        .pw-content {
+            display: flex;
+            flex-direction: row;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .eins-modal-preview {
+            flex: 1 1 280px;
+        }
+
+        .eins-modal-preview img {
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        .eins-modal-text {
+            flex: 1 1 260px;
+            color: #ccc;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .eins-modal-text p { margin-bottom: 12px; }
+
+        .eins-modal-text2 {
+            margin-top: 12px;
+        }
+
+        .eins-modal-text2 span {
+            font-weight: bold;
+            color: #fff;
+            margin-right: 6px;
+        }
+
+        .eins-modal-text2 a {
+            color: #7eb8f7;
+            text-decoration: underline;
+        }
+
+        .eins-modal-text3 {
+            margin-top: 14px;
+        }
+
+        .eins-modal-text3 span {
+            font-weight: bold;
+            color: #fff;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .eins-modal-tecn {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .eins-modal-tecn img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+        }
+
+        /* Form modal */
+        .form {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            color: #ccc;
+        }
+
+        .form label {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 0.9rem;
+        }
+
+        .form input,
+        .form textarea {
+            background: #2a2a3e;
+            border: 1px solid #444;
+            border-radius: 6px;
+            padding: 10px;
+            color: #fff;
+            font-size: 0.9rem;
+        }
+
+        .form textarea { min-height: 120px; resize: vertical; }
+
+        .form button {
+            background: #4f8ef7;
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            align-self: flex-start;
+            transition: background 0.2s;
+        }
+
+        .form button:hover { background: #2f6dd4; }
+    </style>
+
     <title>WilfredoSulbaran</title>
 </head>
 <body>
@@ -38,10 +212,9 @@
             <div class="contac-icon">
                 <a href="https://www.linkedin.com/in/wilfredo-sulbarán-sáez" target="_blank"><img src="asses/linkedin-square.png" alt="logo de linkeding"></a>
                 <a href="https://github.com/WilfredoSulbaran71" target="_blank"><img src="asses/git-squeare.png" alt="logo de Git"></a>
-                <a data-modal-id="message"><img src="asses/email-square.png" alt="Logo de mail"></a>
+                <a href="#" data-modal-open="message"><img src="asses/email-square.png" alt="Logo de mail"></a>
             </div>
             <div class="square-text"><a href="#yosoy"><span>About Me | </span>Sobre Mi</a></div>
-                    
         </div>
     </header>
 
@@ -49,15 +222,15 @@
         <div class="briefcase-section">
             <h2><span>BriefCase | </span>Portafolio</h2>
             <div class="briefcase-grid">
-                <div><a data-modal-id="Transporte"><img src="asses/Login Transporte Jireh.png" alt=""></a></div>
-                <div><a data-modal-id="ProyectoDog"><img src="asses/ProyectoShopDog.png" alt="Imagen proyecto pagina onepage de servicios veterinarios"></a></div>
-                <div><a data-modal-id="Onpage"><img src="asses/webMunudesplegable.png" alt="Imagen de proyecto pagina web onepage con menu tipo hamburguesa"></a></div>
-                <div><a data-modal-id="GameAzar1"><img src="asses/GameAzar0.0.png" alt="Imagen proyecto juego de azar, piedra, papel o tijera"></a></div>
-                <div><a data-modal-id="GameAzar2"><img src="asses/GameAzar0.1.png" alt="Imagen de proyecto juego Simon Dice"></a></div>
-                <div><a data-modal-id="corporativa"><img src="asses/proyecto-corporativa-onepage.png" alt="Imagen proyecto portafolio personal primera version"></a></div>            
-                <div><a data-modal-id="Newletter"><img src="asses/Newsletter.png" alt="Imagen de proyecto formulario Newsletter"></a></div>
-                <div><a data-modal-id="lastportafolio"><img src="asses/portafolio v.0.2.png" alt="Imagen de proyecto Portafolio actual version"></a></div>
-                <div><a data-modal-id="Webcomercial"><img src="asses/ProyectodeVentasWeb.png" alt=""></a></div>
+                <div><a href="#" data-modal-open="Transporte"><img src="asses/Login Transporte Jireh.png" alt=""></a></div>
+                <div><a href="#" data-modal-open="ProyectoDog"><img src="asses/ProyectoShopDog.png" alt="Imagen proyecto pagina onepage de servicios veterinarios"></a></div>
+                <div><a href="#" data-modal-open="Onpage"><img src="asses/webMunudesplegable.png" alt="Imagen de proyecto pagina web onepage con menu tipo hamburguesa"></a></div>
+                <div><a href="#" data-modal-open="GameAzar1"><img src="asses/GameAzar0.0.png" alt="Imagen proyecto juego de azar, piedra, papel o tijera"></a></div>
+                <div><a href="#" data-modal-open="GameAzar2"><img src="asses/GameAzar0.1.png" alt="Imagen de proyecto juego Simon Dice"></a></div>
+                <div><a href="#" data-modal-open="corporativa"><img src="asses/proyecto-corporativa-onepage.png" alt="Imagen proyecto portafolio personal primera version"></a></div>            
+                <div><a href="#" data-modal-open="Newletter"><img src="asses/Newsletter.png" alt="Imagen de proyecto formulario Newsletter"></a></div>
+                <div><a href="#" data-modal-open="lastportafolio"><img src="asses/portafolio v.0.2.png" alt="Imagen de proyecto Portafolio actual version"></a></div>
+                <div><a href="#" data-modal-open="Webcomercial"><img src="asses/ProyectodeVentasWeb.png" alt=""></a></div>
             </div>
         </div>
     </section>
@@ -67,69 +240,24 @@
             <div class="knowledge-part">
                 <h2><span>Knowledge |</span>Conocimientos</h2>
                 <div class="knowledge">
-                    <div>
-                        <img src="asses/html5.png" alt="logo html">
-                        <h3>HTML5</h3>
-                    </div>
-                    <div>
-                        <img src="asses/css3.png" alt="logo css">
-                        <h3>CSS3</h3>
-                    </div>
-                    <div>
-                        <img src="asses/javascript.png" alt="logo js">
-                        <h3>JavaScript</h3>
-                    </div>
-                    <div>
-                        <img src="asses/wordpress.png" alt="logo wp">
-                        <h3>WordPress</h3>
-                    </div>
-                    <div>
-                        <img src="asses/bootstrap.png" alt="logo Boostrap">
-                        <h3>Bootstrap</h3>
-                    </div>
-                    <div>
-                        <img src="asses/node.png" alt="logo Node">
-                        <h3>Node</h3>
-                    </div>
-                    
+                    <div><img src="asses/html5.png" alt="logo html"><h3>HTML5</h3></div>
+                    <div><img src="asses/css3.png" alt="logo css"><h3>CSS3</h3></div>
+                    <div><img src="asses/javascript.png" alt="logo js"><h3>JavaScript</h3></div>
+                    <div><img src="asses/wordpress.png" alt="logo wp"><h3>WordPress</h3></div>
+                    <div><img src="asses/bootstrap.png" alt="logo Boostrap"><h3>Bootstrap</h3></div>
+                    <div><img src="asses/node.png" alt="logo Node"><h3>Node</h3></div>
                 </div>
-
             </div>
-
             <div class="tools-part">
                 <h2><span>Dev Tools |</span>Herramientas</h2>
                 <div class="tools">
-                    <div>
-                        <img src="asses/bash.png" alt="logo Bash">
-                        <h3>Bash</h3>
-                    </div>
-                    <div>
-                        <img src="asses/crhome.png" alt="logo chrome">
-                        <h3>Chrome</h3>
-                    </div>
-                    <div>
-                        <img src="asses/git.png" alt="logo de git">
-                        <h3>Git</h3>
-                    </div>
-                    <div>
-                        <img src="asses/github.png" alt="logo de github">
-                        <h3>GitHub</h3>
-                    </div>
-                    <div>
-                        <img src="asses/npm.png" alt="logo npm">
-                        <h3>NPM</h3>
-                    </div>
-                    
-                    <div>
-                        <img src="asses/visualcode.png" alt="logo visual code">
-                        <h3>Visual Code</h3>
-                    </div>
-
-                    <div>
-                        <img src="asses/API.png" alt="logo de api">
-                        <h3>Api</h3>
-                    </div>
-                    
+                    <div><img src="asses/bash.png" alt="logo Bash"><h3>Bash</h3></div>
+                    <div><img src="asses/crhome.png" alt="logo chrome"><h3>Chrome</h3></div>
+                    <div><img src="asses/git.png" alt="logo de git"><h3>Git</h3></div>
+                    <div><img src="asses/github.png" alt="logo de github"><h3>GitHub</h3></div>
+                    <div><img src="asses/npm.png" alt="logo npm"><h3>NPM</h3></div>
+                    <div><img src="asses/visualcode.png" alt="logo visual code"><h3>Visual Code</h3></div>
+                    <div><img src="asses/API.png" alt="logo de api"><h3>Api</h3></div>
                 </div>
             </div>
         </div>
@@ -150,353 +278,335 @@
             <div class="social">
                 <a href="https://www.linkedin.com/in/wilfredo-sulbarán-sáez" target="_blank"><img src="asses/linkedin-square.png" alt="logo de linkeding"></a>
                 <a href="https://github.com/WilfredoSulbaran71" target="_blank"><img src="asses/git-squeare.png" alt="logo de git"></a>
-                <a data-modal-id="message"><img src="asses/email-square.png" alt="logo de mail"></a>
+                <a href="#" data-modal-open="message"><img src="asses/email-square.png" alt="logo de mail"></a>
             </div>
         </div>
     </section>
-        <div class="content-code">
-            <div>
-                <a href="https://github.com/WilfredoSulbaran71/Portafolio-WilfredoSulbaran.git" target="_blank">
-                    <img src="asses/git-squeare.png" alt="logo de git">
-                    <h3><span>Conoce el Codigo de este proyecto</span></h3>
-                </a>
-            </div>
+
+    <div class="content-code">
+        <div>
+            <a href="https://github.com/WilfredoSulbaran71/Portafolio-WilfredoSulbaran.git" target="_blank">
+                <img src="asses/git-squeare.png" alt="logo de git">
+                <h3><span>Conoce el Codigo de este proyecto</span></h3>
+            </a>
         </div>
+    </div>
 
     <footer>
         <p>&copy Wilfredo Sulbaran | Web Developer </p>
     </footer>
 
 
-<!-- Modal -->
-<div id="myModal" class="eins-modal" data-opcions="openTransition: expandIn; openDutation: 200;">
-  <div class="eins-modal-content">
-    <div class="eins-modal-close"></div>
+    <!-- ===== MODALES ===== -->
 
-    <!-- Your Content -->
-    
-    <button class="eins-modal-close-button">OK</button>
-  </div>
-</div>
-
-<!--Seccion del Modal-->
-
-    <div id="Transporte" class="eins-modal" data-opcions="openTransition: expandIn; openDutation: 200;">
+    <div id="Transporte" class="eins-modal">
         <div class="eins-modal-content">
             <div class="eins-modal-close"></div>
-                <div class="pw-content">
-                        <div class="eins-modal-preview">
-                            <img src="asses/transporte.png" alt="Imagen proyecto login">
-                        </div>
-                        <div class="eins-modal-text">
-                                    <p>Este proyecto representa una propuesta para un Login que permiriera el acceso a los usuarios a un software administrativo, está realizado utilizando HTML5 y CSS3, la ubicación de los elemento esta realizada solo con cordenadas en PX y posicionamiento absoluto para poder ubicar el resto de los elementos.</p>
-                                
-                                <div class="eins-modal-text2">
-                                    <span>ENLACE:</span><a href="#"></a>
-                                </div>
-                                    <div class="eins-modal-text3">
-                                        <span>Tecnologias Usadas:</span>
-                                            <div class="eins-modal-tecn">
-                                                <img src="asses/html5.png" alt="">
-                                                <img src="asses/css3.png" alt="">
-                                                <img src="asses/crhome.png" alt="">
-                                                <img src="asses/visualcode.png" alt="">
-                                            </div>
-                                    </div>
-                        </div>
+            <div class="pw-content">
+                <div class="eins-modal-preview">
+                    <img src="asses/transporte.png" alt="Imagen proyecto login">
                 </div>
-        
+                <div class="eins-modal-text">
+                    <p>Este proyecto representa una propuesta para un Login que permitiera el acceso a los usuarios a un software administrativo, está realizado utilizando HTML5 y CSS3, la ubicación de los elementos esta realizada solo con coordenadas en PX y posicionamiento absoluto para poder ubicar el resto de los elementos.</p>
+                    <div class="eins-modal-text2">
+                        <span>ENLACE:</span><a href="#">—</a>
+                    </div>
+                    <div class="eins-modal-text3">
+                        <span>Tecnologias Usadas:</span>
+                        <div class="eins-modal-tecn">
+                            <img src="asses/html5.png" alt="HTML5">
+                            <img src="asses/css3.png" alt="CSS3">
+                            <img src="asses/crhome.png" alt="Chrome">
+                            <img src="asses/visualcode.png" alt="Visual Code">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-  <div id="ProyectoDog" class="eins-modal" data-opcions="openTransition: expandIn; openDutation: 200;">
-    <div class="eins-modal-content">
-      <div class="eins-modal-close"></div>
-      <div class="pw-content">
-          <div class="eins-modal-preview">
-              <img src="asses/prodog.png" alt="Imagen proyecto pagina web servicios veterinarios">
-          </div>
-          <div class="eins-modal-text">
-                    <p>Proyecto Página Web Onepage estática para servicios de mascotas, Utilice HTML5, CSS3, la distribución de las cards esta hecha utilizando las propiedades de rejilla que permite tener diseño responsivo, y como aporte particular, en diseño de la imagen principal fue optimizado y redimencionado en Photoshop.</p>
-                
-                <div class="eins-modal-text2">
-                    <span>ENLACE:</span><a href="https://wilfredosulbaran71.github.io/Onepage-estatica-mascotas/" target="_blank"></a>
-                </div>
-                    <div class="eins-modal-text3">
-                        <span>Tecnologias Usadas:</span>
-                            <div class="eins-modal-tecn">
-                                <img src="asses/html5.png" alt="logo html5">
-                                <img src="asses/css3.png" alt="logo css">
-                                <img src="asses/crhome.png" alt="logo Chrome">
-                                <img src="asses/visualcode.png" alt="logo visual code">
-                            </div>
-                    </div>
-            </div>
-      </div>
-  
-          
-     
-    </div>
-  </div>
-
-  <div id="Onpage" class="eins-modal" data-opcions="openTransition: expandIn; openDutation: 200;">
-    <div class="eins-modal-content">
-      <div class="eins-modal-close"></div>
-      <div class="pw-content">
-          <div class="eins-modal-preview">
-              <img src="asses/Onepage.png" alt="Imagen proyecto Onepage">
-          </div>
-          <div class="eins-modal-text">
-                    <p>Desarrollo de Página Web, es el primer prototipo de página con menú interactivo de hamburguesa, el menú funciona con una pequeña función en JavaScript que permite llamar la acción de abrir y cerrar al menú, tambien utilice para el diseño, gradientes extraidos de https://uigradients.com/, y para el diseño de la galería de imagenes utilice las propiedades de Flexbox</p>
-                
-                <div class="eins-modal-text2">
-                    <span>ENLACE:</span><a href="https://wilfredosulbaran71.github.io/Proyecto-Onpage-Basic/" target="_blank">Onpage-Basic</a>
-                </div>
-                    <div class="eins-modal-text3">
-                        <span>Tecnologias Usadas:</span>
-                            <div class="eins-modal-tecn">
-                                <img src="asses/html5.png" alt="logo html5">
-                                <img src="asses/css3.png" alt="logo css3">
-                                <img src="asses/javascript.png" alt="logo Js">
-                                <img src="asses/crhome.png" alt="logo Chrome">
-                                <img src="asses/visualcode.png" alt="logo visual code">
-                            </div>
-                    </div>
-            </div>
-      </div>
-  
-           
-     
-    </div>
-  </div>
-
-  <div id="GameAzar1" class="eins-modal" data-opcions="openTransition: expandIn; openDutation: 200;">
-    <div class="eins-modal-content">
-      <div class="eins-modal-close"></div>
-      <div class="pw-content">
-          <div class="eins-modal-preview">
-              <img src="asses/GameAzar0.0.png" alt="Imagen Proyecto juego piedra, peles o tijera">
-          </div>
-          <div class="eins-modal-text">
-                    <p>Este pequeño juego es una representación de un juego al azar, tradicional en Venezuela, llamado "Piedra, papel o tijera", el juego consiste que dos jugadores interactuen mediante el botón que actualiza el juego en tres oportunidades y en cada actualización las figuras van cambiando de manera aleatoria, el jugador que obtenga mas victoria en los tres lanzamientos gana.
-                    </p><br><p>El juego esta realizado bajo una lógica sencilla de condicionales utilizando funciones en JavaScript que tambien permite la ejecucion de conseguir el aleatorio asignando un numero a cada imagen y despues vincular el numero en la funsión.</p>
-                
-                <div class="eins-modal-text2">
-                    <span>ENLACE:</span><a href="https://wilfredosulbaran71.github.io/GameAzar-PiedraPapelTijeras/" target="_blank">Piedra,Pepel o Tijera</a>
-                </div>
-                    <div class="eins-modal-text3">
-                        <span>Tecnologias Usadas:</span>
-                            <div class="eins-modal-tecn">
-                                <img src="asses/html5.png" alt="logo html5">
-                                <img src="asses/css3.png" alt="logo Css">
-                                <img src="asses/crhome.png" alt="logo Chrome">
-                                <img src="asses/visualcode.png" alt="logo Visual code">
-                                <img src="asses/javascript.png" alt="logo JavaScript">
-                                
-                            </div>
-                    </div>
-            </div>
-      </div>
-  
-          
-     
-    </div>
-  </div>
-
-  <div id="GameAzar2" class="eins-modal" data-opcions="openTransition: expandIn; openDutation: 200;">
-    <div class="eins-modal-content">
-      <div class="eins-modal-close"></div>
-      <div class="pw-content">
-          <div class="eins-modal-preview">
-              <img src="asses/GameAzar0.1.png" alt="Proyecto juego Simon Dice">
-          </div>
-          <div class="eins-modal-text">
-                    <p>Este juego permite hacer una secuenca entre el sonido y los colores, es la representacion el famoso juego "Saimon dice", la idea es seguir esa secuencia, el juego inicia con cualquier tecla, en ese momento indica el primer color y sonido, el jugador debera repetir esa acción para incrementar el nivel de complejidad.</p><br><p>En su desarrollo utilise un HTML con una estuctura sencilla, asi como el CSS, lo demas se lo lleva JavaScript.</p><p>En el desarrollo utilice un arreglo con los colores del juego, a los que le asocie un numero y aplicando la funsion de ramdom consigo el color aleaorio y utilizo una funcion para comparar el click con el color para saver si el usuario esta sigiendo la secuencia.</p>
-                
-                <div class="eins-modal-text2">
-                    <span>ENLACE:</span><a href="https://wilfredosulbaran71.github.io/Game-Simon-Dice/" target="_blank">Game:Saimon Dice</a>
-                </div>
-                    <div class="eins-modal-text3">
-                        <span>Tecnologias Usadas:</span>
-                            <div class="eins-modal-tecn">
-                                <img src="asses/html5.png" alt="logo html5">
-                                <img src="asses/css3.png" alt="logo Css">
-                                <img src="asses/crhome.png" alt="logo Chrome">
-                                <img src="asses/visualcode.png" alt="logo Visual code">
-                                <img src="asses/javascript.png" alt="logo JavaScript">
-                            </div>
-                    </div>
-            </div>
-      </div>
-  
-          
-    </div>
-  </div>
-
-  <div id="corporativa" class="eins-modal" data-opcions="openTransition: expandIn; openDutation: 200;">
-    <div class="eins-modal-content">
-      <div class="eins-modal-close"></div>
-      <div class="pw-content">
-          <div class="eins-modal-preview">
-              <img src="asses/proyecto-corporativa-onepage.png" alt="Imagen proyecto portafolio primera version">
-          </div>
-          <div class="eins-modal-text">
-                    <p>Onepage estilo corporativo, La estructura HTML de este proyecto es bastante sencilla, aplique la hoja de estilos de normalización y la hoja de css como archivos separados, tambien comencé a realizar el uso de las varibles "custon propiertis", para generalizar algunas variables y utilice las propiedasdes de grid generar columnas en algunas secciones.</p>
-                
-                <div class="eins-modal-text2">
-                    <span>ENLACE:</span><a href="https://wilfredosulbaran71.github.io/Proyecto-onepage-corporativa/" target="_blank">Onepage Corporativa</a>
-                </div>
-                    <div class="eins-modal-text3">
-                        <span>Tecnologias Usadas:</span>
-                            <div class="eins-modal-tecn">
-                                <img src="asses/html5.png" alt="logo html5">
-                                <img src="asses/css3.png" alt="logo css">
-                                <img src="asses/crhome.png" alt="logo chrome">
-                                <img src="asses/visualcode.png" alt="logo Visual code">
-                                
-                            </div>
-                    </div>
-            </div>
-      </div>
-  
-           
-     
-    </div>
-  </div>
-
-  <div id="Newletter" class="eins-modal" data-opcions="openTransition: expandIn; openDutation: 200;">
-    <div class="eins-modal-content">
-      <div class="eins-modal-close"></div>
-      <div class="pw-content">
-          <div class="eins-modal-preview">
-              <img src="asses/Newsletter.png" alt="Imagen proyecto formulario Newsletter">
-          </div>
-          <div class="eins-modal-text">
-                    <p>Este proyecto es uno de los mas desarrollados que he tenido, es un formulario Newsletter, utilizo el consumo de api de Mailchimp para solicitar los campos y enviar esos campos con nuevos datos y que queden guardados estos datos en su servidor, en el desarrollo utilice HTML5, CSS3, Bootstrap para agregar estilos al formulario, y en JavaScript cree las funciones para hacer las peticiones desde el HTML</p>
-                
-                <div class="eins-modal-text2">
-                    <span>ENLACE:</span><a href="https://protected-basin-28327.herokuapp.com/" target="_blank">NewsLetter</a>
-                </div>
-                    <div class="eins-modal-text3">
-                        <span>Tecnologias Usadas:</span>
-                            <div class="eins-modal-tecn">
-                                <img src="asses/html5.png" alt="logo html">
-                                <img src="asses/css3.png" alt="logo css">
-                                <img src="asses/crhome.png" alt="logo chrome">
-                                <img src="asses/visualcode.png" alt="logo Visual code">
-                                <img src="asses/javascript.png" alt="logo JavaScript">
-                                <img src="asses/API.png" alt="logo Api">
-                                <img src="asses/node.png" alt="logo Node">
-                                <img src="asses/npm.png" alt="Logo Npm">
-
-                            </div>
-                    </div>
-            </div>
-      </div>
-  
-           
-     
-    </div>
-  </div>
-
-  <div id="lastportafolio" class="eins-modal" data-opcions="openTransition: expandIn; openDutation: 200;">
-    <div class="eins-modal-content">
-      <div class="eins-modal-close"></div>
-      <div class="pw-content">
-          <div class="eins-modal-preview">
-              <img src="asses/portafolio v.0.2.png" alt="Imagen portafolio actual">
-          </div>
-          <div class="eins-modal-text">
-                    <p>Este trabajo representa el ultimo modelo de portafolio, posee una mejor estructura que el anterior en lo que a mi criterio se refiere, he utilizado para la mayoria de las animaciones CSS3 y para la seccion de ventanas modales utilice un paquete modal de la libreria de NPM y la llamo desde el HTML</p>
-                
-                <div class="eins-modal-text2">
-                    <span>ENLACE:</span><a href="#"></a>
-                </div>
-                    <div class="eins-modal-text3">
-                        <span>Tecnologias Usadas:</span>
-                            <div class="eins-modal-tecn">
-                                <img src="asses/html5.png" alt="logo html5">
-                                <img src="asses/css3.png" alt="logo css">
-                                <img src="asses/crhome.png" alt="logo chrome">
-                                <img src="asses/visualcode.png" alt="logo Visual code">
-                                <img src="asses/javascript.png" alt="logo JavaScript">
-                                <img src="asses/node.png" alt="logo Node">
-                                <img src="asses/npm.png" alt="logo Npm">
-
-                            </div>
-                    </div>
-            </div>
-      </div>
-            
-     
-    </div>
-  </div>
-
-  <div id="Webcomercial" class="eins-modal" data-opcions="openTransition: expandIn; openDutation: 200;">
-    <div class="eins-modal-content">
-      <div class="eins-modal-close"></div>
-      <div class="pw-content">
-          <div class="eins-modal-preview">
-              <img src="asses/ProyectodeVentasWeb.png" alt="Imagen portafolio actual">
-          </div>
-          <div class="eins-modal-text">
-                    <p>Este trabajo representa el desarrollo de una pgina Web para agencias de desarrollo web y marketing</p><p>Es uno des los trabajos más completos que he realizado en relación al maquetado y al uso de CSS</p>
-                
-                <div class="eins-modal-text2">
-                    <span>ENLACE:</span><a href="https://wilfredosulbaran71.github.io/Marketing-Web/">Marketing-Web</a>
-                </div>
-                    <div class="eins-modal-text3">
-                        <span>Tecnologias Usadas:</span>
-                            <div class="eins-modal-tecn">
-                                <img src="asses/html5.png" alt="logo html5">
-                                <img src="asses/css3.png" alt="logo css">
-                                <img src="asses/crhome.png" alt="logo chrome">
-                                <img src="asses/visualcode.png" alt="logo Visual code">
-                                <img src="asses/javascript.png" alt="logo JavaScript">
-                                <img src="asses/node.png" alt="logo Node">
-                                <img src="asses/npm.png" alt="logo Npm">
-
-                            </div>
-                    </div>
-            </div>
-      </div>
-            
-     
-    </div>
-  </div>
-
-
-    <!--modal para el formulario-->
-
-    <div id="message" class="eins-modal" data-opcions="openTransition: expandIn; openDutation: 200;">
+    <div id="ProyectoDog" class="eins-modal">
         <div class="eins-modal-content">
-          <div class="eins-modal-close"></div>            
-        <form class="form"  action="https://formspree.io/f/xzboyojg" method="POST">
-            <label>
-                Tu correo:
-                <input type="email" name="email">
-            </label>
-            <label>
-                Tu mensaje:
-                <textarea name="message"></textarea>
-            </label>
-            <!-- your other form fields go here -->
-            <button type="submit">Enviar</button>
-        </form>
-          
-          
+            <div class="eins-modal-close"></div>
+            <div class="pw-content">
+                <div class="eins-modal-preview">
+                    <img src="asses/prodog.png" alt="Imagen proyecto pagina web servicios veterinarios">
+                </div>
+                <div class="eins-modal-text">
+                    <p>Proyecto Página Web Onepage estática para servicios de mascotas. Utilicé HTML5, CSS3, la distribución de las cards está hecha utilizando las propiedades de rejilla que permite tener diseño responsivo, y como aporte particular el diseño de la imagen principal fue optimizado y redimensionado en Photoshop.</p>
+                    <div class="eins-modal-text2">
+                        <span>ENLACE:</span><a href="https://wilfredosulbaran71.github.io/Onepage-estatica-mascotas/" target="_blank">Ver proyecto</a>
+                    </div>
+                    <div class="eins-modal-text3">
+                        <span>Tecnologias Usadas:</span>
+                        <div class="eins-modal-tecn">
+                            <img src="asses/html5.png" alt="HTML5">
+                            <img src="asses/css3.png" alt="CSS3">
+                            <img src="asses/crhome.png" alt="Chrome">
+                            <img src="asses/visualcode.png" alt="Visual Code">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
+    </div>
+
+    <div id="Onpage" class="eins-modal">
+        <div class="eins-modal-content">
+            <div class="eins-modal-close"></div>
+            <div class="pw-content">
+                <div class="eins-modal-preview">
+                    <img src="asses/Onepage.png" alt="Imagen proyecto Onepage">
+                </div>
+                <div class="eins-modal-text">
+                    <p>Desarrollo de Página Web, es el primer prototipo de página con menú interactivo de hamburguesa. El menú funciona con una pequeña función en JavaScript que permite llamar la acción de abrir y cerrar al menú. También utilicé gradientes y para el diseño de la galería de imágenes utilicé las propiedades de Flexbox.</p>
+                    <div class="eins-modal-text2">
+                        <span>ENLACE:</span><a href="https://wilfredosulbaran71.github.io/Proyecto-Onpage-Basic/" target="_blank">Onpage-Basic</a>
+                    </div>
+                    <div class="eins-modal-text3">
+                        <span>Tecnologias Usadas:</span>
+                        <div class="eins-modal-tecn">
+                            <img src="asses/html5.png" alt="HTML5">
+                            <img src="asses/css3.png" alt="CSS3">
+                            <img src="asses/javascript.png" alt="JavaScript">
+                            <img src="asses/crhome.png" alt="Chrome">
+                            <img src="asses/visualcode.png" alt="Visual Code">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="GameAzar1" class="eins-modal">
+        <div class="eins-modal-content">
+            <div class="eins-modal-close"></div>
+            <div class="pw-content">
+                <div class="eins-modal-preview">
+                    <img src="asses/GameAzar0.0.png" alt="Imagen Proyecto juego piedra papel o tijera">
+                </div>
+                <div class="eins-modal-text">
+                    <p>Este pequeño juego es una representación de un juego al azar, tradicional en Venezuela, llamado "Piedra, papel o tijera". El juego consiste en que dos jugadores interactúen mediante el botón que actualiza el juego en tres oportunidades y en cada actualización las figuras van cambiando de manera aleatoria. El jugador que obtenga más victorias en los tres lanzamientos gana.</p>
+                    <p>El juego está realizado bajo una lógica sencilla de condicionales utilizando funciones en JavaScript.</p>
+                    <div class="eins-modal-text2">
+                        <span>ENLACE:</span><a href="https://wilfredosulbaran71.github.io/GameAzar-PiedraPapelTijeras/" target="_blank">Piedra, Papel o Tijera</a>
+                    </div>
+                    <div class="eins-modal-text3">
+                        <span>Tecnologias Usadas:</span>
+                        <div class="eins-modal-tecn">
+                            <img src="asses/html5.png" alt="HTML5">
+                            <img src="asses/css3.png" alt="CSS3">
+                            <img src="asses/javascript.png" alt="JavaScript">
+                            <img src="asses/crhome.png" alt="Chrome">
+                            <img src="asses/visualcode.png" alt="Visual Code">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="GameAzar2" class="eins-modal">
+        <div class="eins-modal-content">
+            <div class="eins-modal-close"></div>
+            <div class="pw-content">
+                <div class="eins-modal-preview">
+                    <img src="asses/GameAzar0.1.png" alt="Proyecto juego Simon Dice">
+                </div>
+                <div class="eins-modal-text">
+                    <p>Este juego permite hacer una secuencia entre el sonido y los colores, es la representación del famoso juego "Simon Dice". La idea es seguir esa secuencia: el juego inicia con cualquier tecla, en ese momento indica el primer color y sonido, el jugador deberá repetir esa acción para incrementar el nivel de complejidad.</p>
+                    <p>En el desarrollo utilicé un arreglo con los colores del juego, a los que les asocié un número y aplicando la función random consigo el color aleatorio.</p>
+                    <div class="eins-modal-text2">
+                        <span>ENLACE:</span><a href="https://wilfredosulbaran71.github.io/Game-Simon-Dice/" target="_blank">Game: Simon Dice</a>
+                    </div>
+                    <div class="eins-modal-text3">
+                        <span>Tecnologias Usadas:</span>
+                        <div class="eins-modal-tecn">
+                            <img src="asses/html5.png" alt="HTML5">
+                            <img src="asses/css3.png" alt="CSS3">
+                            <img src="asses/javascript.png" alt="JavaScript">
+                            <img src="asses/crhome.png" alt="Chrome">
+                            <img src="asses/visualcode.png" alt="Visual Code">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="corporativa" class="eins-modal">
+        <div class="eins-modal-content">
+            <div class="eins-modal-close"></div>
+            <div class="pw-content">
+                <div class="eins-modal-preview">
+                    <img src="asses/proyecto-corporativa-onepage.png" alt="Imagen proyecto portafolio primera version">
+                </div>
+                <div class="eins-modal-text">
+                    <p>Onepage estilo corporativo. La estructura HTML de este proyecto es bastante sencilla, apliqué la hoja de estilos de normalización y la hoja de CSS como archivos separados, también comencé a realizar el uso de las variables "custom properties" para generalizar algunas variables y utilicé las propiedades de grid para generar columnas en algunas secciones.</p>
+                    <div class="eins-modal-text2">
+                        <span>ENLACE:</span><a href="https://wilfredosulbaran71.github.io/Proyecto-onepage-corporativa/" target="_blank">Onepage Corporativa</a>
+                    </div>
+                    <div class="eins-modal-text3">
+                        <span>Tecnologias Usadas:</span>
+                        <div class="eins-modal-tecn">
+                            <img src="asses/html5.png" alt="HTML5">
+                            <img src="asses/css3.png" alt="CSS3">
+                            <img src="asses/crhome.png" alt="Chrome">
+                            <img src="asses/visualcode.png" alt="Visual Code">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="Newletter" class="eins-modal">
+        <div class="eins-modal-content">
+            <div class="eins-modal-close"></div>
+            <div class="pw-content">
+                <div class="eins-modal-preview">
+                    <img src="asses/Newsletter.png" alt="Imagen proyecto formulario Newsletter">
+                </div>
+                <div class="eins-modal-text">
+                    <p>Este proyecto es uno de los más desarrollados que he tenido. Es un formulario Newsletter que utiliza el consumo de API de Mailchimp para solicitar los campos y enviar esos campos con nuevos datos, quedando guardados en su servidor. En el desarrollo utilicé HTML5, CSS3, Bootstrap para agregar estilos al formulario y en JavaScript creé las funciones para hacer las peticiones desde el HTML.</p>
+                    <div class="eins-modal-text2">
+                        <span>ENLACE:</span><a href="https://protected-basin-28327.herokuapp.com/" target="_blank">NewsLetter</a>
+                    </div>
+                    <div class="eins-modal-text3">
+                        <span>Tecnologias Usadas:</span>
+                        <div class="eins-modal-tecn">
+                            <img src="asses/html5.png" alt="HTML5">
+                            <img src="asses/css3.png" alt="CSS3">
+                            <img src="asses/javascript.png" alt="JavaScript">
+                            <img src="asses/API.png" alt="API">
+                            <img src="asses/node.png" alt="Node">
+                            <img src="asses/npm.png" alt="NPM">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="lastportafolio" class="eins-modal">
+        <div class="eins-modal-content">
+            <div class="eins-modal-close"></div>
+            <div class="pw-content">
+                <div class="eins-modal-preview">
+                    <img src="asses/portafolio v.0.2.png" alt="Imagen portafolio actual">
+                </div>
+                <div class="eins-modal-text">
+                    <p>Este trabajo representa el último modelo de portafolio. Posee una mejor estructura que el anterior: he utilizado para la mayoría de las animaciones CSS3 y para la sección de ventanas modales utilicé JavaScript puro para mayor compatibilidad con GitHub Pages.</p>
+                    <div class="eins-modal-text2">
+                        <span>ENLACE:</span><a href="#">—</a>
+                    </div>
+                    <div class="eins-modal-text3">
+                        <span>Tecnologias Usadas:</span>
+                        <div class="eins-modal-tecn">
+                            <img src="asses/html5.png" alt="HTML5">
+                            <img src="asses/css3.png" alt="CSS3">
+                            <img src="asses/javascript.png" alt="JavaScript">
+                            <img src="asses/crhome.png" alt="Chrome">
+                            <img src="asses/visualcode.png" alt="Visual Code">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="Webcomercial" class="eins-modal">
+        <div class="eins-modal-content">
+            <div class="eins-modal-close"></div>
+            <div class="pw-content">
+                <div class="eins-modal-preview">
+                    <img src="asses/ProyectodeVentasWeb.png" alt="Imagen portafolio actual">
+                </div>
+                <div class="eins-modal-text">
+                    <p>Este trabajo representa el desarrollo de una página Web para agencias de desarrollo web y marketing. Es uno de los trabajos más completos que he realizado en relación al maquetado y al uso de CSS.</p>
+                    <div class="eins-modal-text2">
+                        <span>ENLACE:</span><a href="https://wilfredosulbaran71.github.io/Marketing-Web/" target="_blank">Marketing-Web</a>
+                    </div>
+                    <div class="eins-modal-text3">
+                        <span>Tecnologias Usadas:</span>
+                        <div class="eins-modal-tecn">
+                            <img src="asses/html5.png" alt="HTML5">
+                            <img src="asses/css3.png" alt="CSS3">
+                            <img src="asses/javascript.png" alt="JavaScript">
+                            <img src="asses/crhome.png" alt="Chrome">
+                            <img src="asses/visualcode.png" alt="Visual Code">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal formulario de contacto -->
+    <div id="message" class="eins-modal">
+        <div class="eins-modal-content">
+            <div class="eins-modal-close"></div>
+            <form class="form" action="https://formspree.io/f/xzboyojg" method="POST">
+                <label>
+                    Tu correo:
+                    <input type="email" name="email" required>
+                </label>
+                <label>
+                    Tu mensaje:
+                    <textarea name="message" required></textarea>
+                </label>
+                <button type="submit">Enviar</button>
+            </form>
+        </div>
+    </div>
 
 
-    <!--formulario de contacto-->
+    <!-- ===== JAVASCRIPT PURO PARA MODALES — SIN NPM ===== -->
+    <script>
+        // Abrir modal
+        document.querySelectorAll('[data-modal-open]').forEach(function(trigger) {
+            trigger.addEventListener('click', function(e) {
+                e.preventDefault();
+                var id = this.getAttribute('data-modal-open');
+                var modal = document.getElementById(id);
+                if (modal) {
+                    modal.classList.add('is-open');
+                    document.body.style.overflow = 'hidden';
+                }
+            });
+        });
 
+        // Cerrar modal al hacer clic en la X
+        document.querySelectorAll('.eins-modal-close').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var modal = this.closest('.eins-modal');
+                if (modal) {
+                    modal.classList.remove('is-open');
+                    document.body.style.overflow = '';
+                }
+            });
+        });
 
-  
+        // Cerrar modal al hacer clic fuera del contenido
+        document.querySelectorAll('.eins-modal').forEach(function(modal) {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('is-open');
+                    document.body.style.overflow = '';
+                }
+            });
+        });
 
-<script src="/node_modules/eins-modal/dist/js/eins-modal.min.js"></script>
+        // Cerrar modal con tecla Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.eins-modal.is-open').forEach(function(modal) {
+                    modal.classList.remove('is-open');
+                    document.body.style.overflow = '';
+                });
+            }
+        });
+    </script>
+
 </body>
-
 </html>
-
-
